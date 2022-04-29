@@ -11,7 +11,7 @@ table td, table th {
   vertical-align: text-top;
 }
 
-table tbody tr:nth-child(even){background-color: #f2f2f2;}
+table tbody tr:nth-child(even) {background-color: #f2f2f2;}
 
 table tbody tr:hover {background-color: #ddd;}
 
@@ -23,13 +23,13 @@ table th {
   color: white;
 }
 
-.poista{
+.poista {
 	color: red;
 	text-decoration: underline;
 	cursor: pointer;	
 }
 
-.oikealle{
+.oikealle {
 	text-align: right;	
 }
 

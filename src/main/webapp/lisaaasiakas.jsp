@@ -103,6 +103,7 @@ $(document).ready(function(){
 function lisaaAsiakas(){
 	// muutetaan lomakkeen tiedot json-stringiksi:
 	var formJsonStr = formDataJsonStr($("#tiedot").serializeArray());
+	console.log(formJsonStr);
 	$.ajax({
 		url:"asiakkaat",
 		data:formJsonStr, 
@@ -113,10 +114,11 @@ function lisaaAsiakas(){
 				$("#ilmo").html("Asiakkaan lis‰‰minen ep‰onnistui.");
 			} else if (result.response == 1) {
 				$("#ilmo").html("Asiakkaan lis‰‰minen onnistui.");
-				$("#etunimi").val("");
-				$("#sukunimi").val("");
-				$("#puhelin").val("");
-				$("#sposti").val("");
+				$("#etunimi, #sukunimi, #puhelin, #sposti").val("");
+				//$("#etunimi").val("");
+				//$("#sukunimi").val("");
+				//$("#puhelin").val("");
+				//$("#sposti").val("");
 			}
 		}
 	});

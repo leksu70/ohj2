@@ -24,6 +24,7 @@ public class Asiakkaat extends HttpServlet {
         System.out.println("Asiakkaat.Asiakkaat()");
     }
 
+    // Hae asiakas/asiakkaat
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Asiakkaat.doGet()");
 		
@@ -53,6 +54,7 @@ public class Asiakkaat extends HttpServlet {
 		out.println(strJSON);
 	}
 
+	// Asiakkaan lis‰‰minen
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Asiakkaat.doPost()");
 		
@@ -75,21 +77,24 @@ public class Asiakkaat extends HttpServlet {
 		}
 	}
 
+	// Asiakkaan muuttaminen
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Asiakkaat.doPut()");
 	}
 
+	// Asiakkaan poisto
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Asiakkaat.doDelete()");
 		
 		String pathInfo = request.getPathInfo();  // Haetaan kutsun polkutiedot, esim. /ABC-123
 		System.out.println("polku: " + pathInfo);
-		String poistettavaAsiakasid = pathInfo.replace("/", "");
+		//String poistettavaAsiakasid = pathInfo.replace("/", "");
+		int asiakas_id = Integer.parseInt(pathInfo.replace("/", ""));
 
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		Dao dao = new Dao();
-		if (dao.poistaAsiakas(poistettavaAsiakasid)) { // Metodi palauttaa true/false
+		if (dao.poistaAsiakas(asiakas_id)) { // Metodi palauttaa true/false
 			out.println("{\"response\":1}"); // Poistaminen onnistui {"response":1}
 		} else {
 			out.println("{\"response\":0}"); // Poistaminen ep‰onnistui {"response":0}

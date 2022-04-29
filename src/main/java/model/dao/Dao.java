@@ -107,6 +107,8 @@ public class Dao {
 			stmtPrep.setString(3, asiakas.getPuhelin());
 			stmtPrep.setString(4, asiakas.getSposti());
 			stmtPrep.executeUpdate();
+			// Jos haluaa tiet‰‰ uusimman id:n
+			// System.out.println("Uusin id on " + stmtPrep.getGeneratedKeys().getInt(1));
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -115,7 +117,8 @@ public class Dao {
 		return paluuArvo;
 	}
 	
-	public boolean poistaAsiakas(String asiakas_id) { 
+	// public boolean poistaAsiakas(String asiakas_id) {
+	public boolean poistaAsiakas(int asiakas_id) {
 		System.out.println("Dao.poistaAsiakas(" + asiakas_id + ")");
 		// Oikeassa el‰m‰ss‰ tiedot ensisijaisesti merkit‰‰n poistetuksi
 		boolean paluuArvo = true;
@@ -123,7 +126,8 @@ public class Dao {
 		try {
 			con = yhdista();
 			stmtPrep=con.prepareStatement(sql);
-			stmtPrep.setInt(1, Integer.parseInt(asiakas_id));
+			// stmtPrep.setInt(1, Integer.parseInt(asiakas_id));
+			stmtPrep.setInt(1, asiakas_id);
 			stmtPrep.executeUpdate();
 			con.close();
 		} catch (SQLException e) { // Oli esimerkiss‰ Exception.

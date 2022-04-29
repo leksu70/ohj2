@@ -25,7 +25,7 @@
 				<th>Sukunimi</th>
 				<th>Puhelin</th>
 				<th>Sposti</th>
-				<th></th>			
+				<th>&nbsp;</th>			
 			</tr>
 		</thead>
 		<tbody>
@@ -63,20 +63,20 @@ function haeAsiakkaat(){
 		success:function(result){
 			$.each(result.asiakkaat, function(i, field){  
         		var htmlStr;
-        		htmlStr += "<tr id='rivi_"+field.asiakas_id+"'>";
-        		htmlStr += "<td>"+field.etunimi+"</td>";
-        		htmlStr += "<td>"+field.sukunimi+"</td>";
-        		htmlStr += "<td>"+field.puhelin+"</td>";
-        		htmlStr += "<td>"+field.sposti+"</td>";
-        		htmlStr += "<td><span class='poista' onclick=poista('"+field.asiakas_id+"')>Poista</span></td>";
+        		htmlStr += "<tr id='rivi_" + field.asiakas_id + "'>";
+        		htmlStr += "<td>" + field.etunimi + "</td>";
+        		htmlStr += "<td>" + field.sukunimi + "</td>";
+        		htmlStr += "<td>" + field.puhelin + "</td>";
+        		htmlStr += "<td>" + field.sposti + "</td>";
+        		htmlStr += "<td><span class='poista' onclick=poista("+ field.asiakas_id + ",'" + field.etunimi + "','" + field.sukunimi + "')>Poista</span></td>";
         		htmlStr += "</tr>";
         		$("#listaus tbody").append(htmlStr);
         });
     }});	
 }
 
-function poista(asiakas_id){
-	if (confirm("Poista asiakas " + asiakas_id +"?")) {
+function poista(asiakas_id, etunimi, sukunimi){
+	if (confirm("Poista asiakas " + etunimi + " " + sukunimi + "?")) {
 		$.ajax({
 			url:"asiakkaat/" + asiakas_id, 
 			type:"DELETE", 
@@ -88,7 +88,7 @@ function poista(asiakas_id){
 	        	} else if (result.response == 1) {
 	        		//V‰rj‰t‰‰n poistetun asiakkaan rivi
 	        		$("#rivi_" + asiakas_id).css("background-color", "red"); 
-	        		alert("Asiakkaan " + asiakas_id +" poisto onnistui.");
+	        		alert("Asiakkaan " + etunimi + " " + sukunimi +" poisto onnistui.");
 					haeAsiakkaat();        	
 			}
 	    }});
