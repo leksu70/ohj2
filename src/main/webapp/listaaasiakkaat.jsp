@@ -68,7 +68,8 @@ function haeAsiakkaat(){
         		htmlStr += "<td>" + field.sukunimi + "</td>";
         		htmlStr += "<td>" + field.puhelin + "</td>";
         		htmlStr += "<td>" + field.sposti + "</td>";
-        		htmlStr += "<td><span class='poista' onclick=poista("+ field.asiakas_id + ",'" + field.etunimi + "','" + field.sukunimi + "')>Poista</span></td>";
+        		htmlStr += "<td><a href='muutaasiakas.jsp?asiakas_id=" + field.asiakas_id + "'>Muuta</a>&nbsp;";
+        		htmlStr += "<span class='poista' onclick=poista("+ field.asiakas_id + ",'" + field.etunimi + "','" + field.sukunimi + "')>Poista</span></td>";
         		htmlStr += "</tr>";
         		$("#listaus tbody").append(htmlStr);
         });
