@@ -27,7 +27,7 @@ public class Asiakkaat extends HttpServlet {
     // Hae asiakkaiden tiedot
     // GET /asiakkaat ja /asiakkaat/
     // GET /asiakkaat/{hakusana}
-    // GET /asiakaat/haeyksi/asiakas_id
+    // GET /asiakaat/haeyksi/{id}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Asiakkaat.doGet()");
 		
@@ -40,7 +40,7 @@ public class Asiakkaat extends HttpServlet {
 		ArrayList<Asiakas> asiakkaat; // = null;
 		String strJSON = "";
 		
-		if (pathInfo == null) {			
+		if (pathInfo == null) {  // /asiakkaat	
 			asiakkaat = dao.listaaKaikki();
 			// Muutetaan JSONiksi
 			strJSON = new JSONObject().put("asiakkaat", asiakkaat).toString();
@@ -48,14 +48,19 @@ public class Asiakkaat extends HttpServlet {
 		} else if (pathInfo.indexOf("haeyksi") != -1){  // polussa on "haeyksi"
 			int asiakas_id = Integer.parseInt(pathInfo.replace("/haeyksi/", ""));  // poistetaan polusta "/haeyksi/", jäljelle jää asiakas_id
 			Asiakas asiakas = dao.etsiAsiakas(asiakas_id);
-			JSONObject JSON = new JSONObject();
-			JSON.put("asiakas_id", asiakas.getAsiakas_id());
-			JSON.put("etunimi", asiakas.getEtunimi());
-			JSON.put("sukunimi", asiakas.getSukunimi());
-			JSON.put("puhelin", asiakas.getPuhelin());
-			JSON.put("sposti", asiakas.getSposti());
-			strJSON = JSON.toString();			
-		} else {
+			if (asiakas == null) { // Jos asiakasta ei löytynyt, niin palautetaan tyhjä json-string
+				strJSON = "{}";
+			} else {
+				JSONObject JSON = new JSONObject();
+				JSON.put("asiakas_id", asiakas.getAsiakas_id());
+				JSON.put("etunimi", asiakas.getEtunimi());
+				JSON.put("sukunimi", asiakas.getSukunimi());
+				JSON.put("puhelin", asiakas.getPuhelin());
+				JSON.put("sposti", asiakas.getSposti());
+				strJSON = JSON.toString();
+			}
+			
+		} else {  // /asiakkaat/{hakusana} voi olla myös tyhjä
 			String hakusana = pathInfo.replace("/", "");
 			asiakkaat = dao.listaaKaikki(hakusana);
 			strJSON = new JSONObject().put("asiakkaat", asiakkaat).toString();
@@ -98,7 +103,7 @@ public class Asiakkaat extends HttpServlet {
 		// Muutetaan kutsun mukana tuleva json-string json-objektiksi:
 		JSONObject jsonObj = new JsonStrToObj().convert(request);
 		Asiakas asiakas = new Asiakas();
-		asiakas.setAsiakas_id(jsonObj.getInt("asiakas_id"));
+		asiakas.setAsiakas_id(Integer.parseInt(jsonObj.getString("asiakas_id")));
 		asiakas.setEtunimi(jsonObj.getString("etunimi"));
 		asiakas.setSukunimi(jsonObj.getString("sukunimi"));
 		asiakas.setPuhelin(jsonObj.getString("puhelin"));
